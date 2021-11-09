@@ -24,3 +24,9 @@ class SoundKitService:
 
     def get_nb_tracks(self):
         return self.soundkit.get_nb_tracks()
+
+    def get_sound_at(self, index):
+        if index >= len(self.soundkit.sounds):
+            return None
+        return self.soundkit.sounds[index]
+
