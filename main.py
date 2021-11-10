@@ -24,7 +24,7 @@ class MainWidget(RelativeLayout):
     def on_parent(self, widget, parent):
         for i in range(0, self.sound_kit_service.get_nb_tracks()):
             sound_i = self.sound_kit_service.get_sound_at(i)
-            self.tracks_layout.add_widget(TrackWidget(sound_i))
+            self.tracks_layout.add_widget(TrackWidget(self.audio_engine, sound_i))
 
 
 class MrBeatApp(App):

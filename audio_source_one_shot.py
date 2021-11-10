@@ -12,8 +12,6 @@ class AudioSourceOneShot(ThreadSource):
         self.buffer = array("h", b"\x00\x00" * self.nb_samples_in_chunk)
 
     def get_bytes(self, *args, **kwargs):
-        if self.current_sample_index >= self.nb_wave_samples:
-            self.current_sample_index = 0
         for i in range(0, self.nb_samples_in_chunk):
             if self.current_sample_index < self.nb_wave_samples:
                 self.buffer[i] = self.wave_samples[self.current_sample_index]
