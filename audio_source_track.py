@@ -6,6 +6,8 @@ class AudioSourceTrack(ThreadSource):
     steps = ()
     nb_samples_per_step = 0
     buffer = None
+    # FIX : son joué au démarage
+    is_sound_playing = False
 
     def __init__(self, output_stream, wave_samples, bpm, sample_rate,  *args, **kwargs):
         ThreadSource.__init__(self, output_stream, *args, **kwargs)
@@ -40,11 +42,13 @@ class AudioSourceTrack(ThreadSource):
                     self.buffer[i] = self.wave_samples[i]
                     if i == 0:
                         self.current_sample_index = 0
+                        self.is_sound_playing = True
                 else:
-                    if 0 < self.current_sample_index < self.nb_wave_samples:
+                    if self.is_sound_playing is True and 0 < self.current_sample_index < self.nb_wave_samples:
                         self.buffer[i] = self.wave_samples[self.current_sample_index]
                     else:
                         self.buffer[i] = 0
+                        self.is_sound_playing = False
             else:
                 self.buffer[i] = 0
             self.current_sample_index += 1
