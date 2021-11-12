@@ -22,12 +22,13 @@ class MainWidget(RelativeLayout):
         # self.audioengine.play_sound(kick_sound.samples)
         # self.audio_engine.create_track(kick_sound.samples, 60)
         all_wave_samples = self.sound_kit_service.get_all_samples()
-        self.audio_engine.create_mixer(all_wave_samples, 60, NB_STEP_BUTTON)
+        self.audio_source_mixer = self.audio_engine.create_mixer(all_wave_samples, 60, NB_STEP_BUTTON)
 
     def on_parent(self, widget, parent):
         for i in range(0, self.sound_kit_service.get_nb_tracks()):
             sound_i = self.sound_kit_service.get_sound_at(i)
-            self.tracks_layout.add_widget(TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON))
+            audio_source_track_i = self.audio_source_mixer.audio_source_tracks[i]
+            self.tracks_layout.add_widget(TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i))
 
 
 class MrBeatApp(App):

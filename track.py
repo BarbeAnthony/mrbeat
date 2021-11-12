@@ -4,11 +4,12 @@ from kivy.uix.togglebutton import ToggleButton
 
 
 class TrackWidget(BoxLayout):
-    def __init__(self, audio_engine, sound, nb_step_button, **kwargs):
+    def __init__(self, audio_engine, sound, nb_step_button, track_source, **kwargs):
         super().__init__(**kwargs)
         self.audio_engine = audio_engine
         self.sound = sound
         self.nb_step_button = nb_step_button
+        self.track_source = track_source
         # self.track_audio_source = self.audio_engine.create_track(self.sound.samples, 60)
         sound_button = TrackSoundButton()
         sound_button.text = sound.displayname
@@ -32,6 +33,7 @@ class TrackWidget(BoxLayout):
             else:
                 steps.append(0)
         # self.track_audio_source.set_steps(steps)
+        self.track_source.set_steps(steps)
 
 
 
