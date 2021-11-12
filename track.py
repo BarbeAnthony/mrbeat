@@ -10,7 +10,7 @@ class TrackWidget(BoxLayout):
         super().__init__(**kwargs)
         self.audio_engine = audio_engine
         self.sound = sound
-        self.track_audio_source = self.audio_engine.create_track(self.sound.samples, 60)
+        # self.track_audio_source = self.audio_engine.create_track(self.sound.samples, 60)
         sound_button = TrackSoundButton()
         sound_button.text = sound.displayname
         sound_button.on_press = self.on_sound_button_press
@@ -32,7 +32,7 @@ class TrackWidget(BoxLayout):
                 steps.append(1)
             else:
                 steps.append(0)
-        self.track_audio_source.set_steps(steps)
+        # self.track_audio_source.set_steps(steps)
 
 
 
