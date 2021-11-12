@@ -32,15 +32,15 @@ class AudioSourceMixer(ThreadSource):
     def get_bytes(self, *args, **kwargs):
         nb_samples_per_step = self.audio_source_tracks[0].nb_samples_per_step
         if self.buffer is None or not len(self.buffer) == nb_samples_per_step:
-            self.buffer = array("h", b"\x00\x00" * self.nb_samples_per_step)
+            self.buffer = array("h", b"\x00\x00" * nb_samples_per_step)
         all_buffers = []
         for j in range(0, len(self.audio_source_tracks)):
             track_buffer = self.audio_source_tracks[j].get_bytes_array()
             all_buffers.append(track_buffer)
         for i in range(0, nb_samples_per_step):
             self.buffer[i] = 0
-            for j in range(0, len(self.audio_source_tracks)):
-                self.buffer[i] += self.audio_source_tracks[j][i]
+            for j in range(0, len(all_buffers)):
+                self.buffer[i] += all_buffers[j][i]
             # self.current_sample_index += 1
         self.current_step_index += 1
         if self.current_step_index >= self.nb_steps:

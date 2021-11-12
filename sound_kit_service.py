@@ -24,6 +24,13 @@ class SoundKit:
     def get_nb_tracks(self):
         return len(self.sounds)
 
+    def get_all_samples(self):
+        all_wave_samples = []
+        for sound in self.sounds:
+            all_wave_samples.append(sound.samples)
+        return all_wave_samples
+
+
 
 class SoundKit1(SoundKit):
     sounds = (Sound("sounds/kit1/kick.wav", "KICK"),
@@ -37,6 +44,9 @@ class SoundKitService:
 
     def get_nb_tracks(self):
         return self.soundkit.get_nb_tracks()
+
+    def get_all_samples(self):
+        return self.soundkit.get_all_samples()
 
     def get_sound_at(self, index):
         if index >= len(self.soundkit.sounds):
