@@ -30,6 +30,7 @@ class MainWidget(RelativeLayout):
 
     def on_parent(self, widget, parent):
         self.play_indicator_widget.set_nb_steps_and_position(NB_STEP_BUTTON, SOUND_BUTTON_WIDTH)
+        self.play_indicator_widget.set_step_display_at_index(15)
         for i in range(0, self.sound_kit_service.get_nb_tracks()):
             sound_i = self.sound_kit_service.get_sound_at(i)
             audio_source_track_i = self.audio_source_mixer.audio_source_tracks[i]
