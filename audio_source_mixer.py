@@ -6,6 +6,7 @@ from audio_source_track import AudioSourceTrack
 
 class AudioSourceMixer(ThreadSource):
     buffer = None
+    is_playing = False
 
     def __init__(self, output_stream, all_wave_samples, bpm, sample_rate, nb_steps, on_current_step_changed, *args, **kwargs):
         ThreadSource.__init__(self, output_stream, *args, **kwargs)
@@ -30,10 +31,25 @@ class AudioSourceMixer(ThreadSource):
         for i in range(0, len(self.audio_source_tracks)):
             self.audio_source_tracks[i].set_bpm(bpm)
 
+    def audio_play(self):
+        self.is_playing = True
+
+    def audio_stop(self):
+        self.is_playing = False
+
     def get_bytes(self, *args, **kwargs):
+        # initialiser le buffer
         nb_samples_per_step = self.audio_source_tracks[0].nb_samples_per_step
         if self.buffer is None or not len(self.buffer) == nb_samples_per_step:
             self.buffer = array("h", b"\x00\x00" * nb_samples_per_step)
+
+        # Silence au démarage et si stop enclanché
+        if not self.is_playing:
+            for i in range(0, nb_samples_per_step):
+                self.buffer[i] = 0
+            return self.buffer.tobytes()
+
+        # Sinon écriture du buffer avec sons
         all_buffers = []
         for j in range(0, len(self.audio_source_tracks)):
             track_buffer = self.audio_source_tracks[j].get_bytes_array()

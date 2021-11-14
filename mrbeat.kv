@@ -13,8 +13,10 @@ MainWidget:
             height: dp(50)
             ControlButton:
                 text: "PLAY"
+                on_press: root.on_play_button_pressed()
             ControlButton:
                 text: "STOP"
+                on_press: root.on_stop_button_pressed()
         PlayIndicatorWidget:
             id: play_indicator_widget_id
             size_hint_y: None
