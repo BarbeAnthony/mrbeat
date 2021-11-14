@@ -22,9 +22,17 @@ class PlayIndicatorWidget(BoxLayout):
             place_holder_button = Button()
             place_holder_button.size_hint_x = None
             place_holder_button.width = place_holder_button_width
+            place_holder_button.disabled = True
+            place_holder_button.background_color = (0, 0, 0, 0)
             self.add_widget(place_holder_button)
 
             for i in range(0, nb_steps):
                 button = PlayIndicatorButton()
+                button.disabled = True
+                button.background_color = (0.5, 0.5, 1, 0)
+                button.background_disabled_down = ""
+                if i == 0:
+                    button.state = "down"
+                    button.background_color = (0.5, 0.5, 1, 1)
                 self.play_indicator_buttons.append(button)
                 self.add_widget(button)
