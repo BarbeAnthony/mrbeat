@@ -6,7 +6,7 @@ from audio_source_track import AudioSourceTrack
 
 class AudioEngine:
     NB_CHANNELS = 1
-    SAMPLE_RATE = 28000 # 44100 par défaut
+    SAMPLE_RATE = 28000   # compensation de bug, valeur souhaitée 44100
     BUFFER_SIZE = 1024
 
     def __init__(self):
