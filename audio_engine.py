@@ -6,7 +6,7 @@ from audio_source_track import AudioSourceTrack
 
 class AudioEngine:
     NB_CHANNELS = 1
-    SAMPLE_RATE = 28000 # 44100 par défaut
+    SAMPLE_RATE = 44100   # compensation de bug, valeur souhaitée 44100
     BUFFER_SIZE = 1024
 
     def __init__(self):
@@ -25,8 +25,8 @@ class AudioEngine:
         source_track.start()
         return source_track
 
-    def create_mixer(self, all_wave_samples, bpm, nb_steps):
-        source_mixer = AudioSourceMixer(self.output_stream, all_wave_samples, bpm, self.SAMPLE_RATE, nb_steps)
+    def create_mixer(self, all_wave_samples, bpm, nb_steps, on_current_step_changed, min_bpm):
+        source_mixer = AudioSourceMixer(self.output_stream, all_wave_samples, bpm, self.SAMPLE_RATE, nb_steps, on_current_step_changed, min_bpm)
         source_mixer.start()
         return source_mixer
 

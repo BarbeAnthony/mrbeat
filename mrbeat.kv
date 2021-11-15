@@ -1,20 +1,45 @@
 #:import track track
+#:import play_indicator play_indicator
 
 MainWidget:
 
 <MainWidget>:
-    tracks_layout : tracks_layout
+    tracks_layout : tracks_layout_id
+    play_indicator_widget: play_indicator_widget_id
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
             size_hint_y: None
-            height: "100dp"
+            height: dp(50)
             ControlButton:
                 text: "PLAY"
+                on_press: root.on_play_button_pressed()
             ControlButton:
                 text: "STOP"
+                on_press: root.on_stop_button_pressed()
+            ControlButton:
+                text: "CLEAR"
+                on_press: root.on_clear_button_pressed()
+            ControlButton:
+                text: "-"
+                on_press: root.bpm -= 5
+                size_hint_x: None
+                width: dp(50)
+            Label:
+                text: str(root.bpm)
+                size_hint_x: None
+                width: dp(80)
+            ControlButton:
+                text: "+"
+                on_press: root.bpm += 5
+                size_hint_x: None
+                width: dp(50)
+        PlayIndicatorWidget:
+            id: play_indicator_widget_id
+            size_hint_y: None
+            height: dp(17) # compensation de bug, valeur souhaitée dp(8)
         BoxLayout:
-            id: tracks_layout
+            id: tracks_layout_id
             orientation: "vertical"
 
 <ControlButton@Button>:
