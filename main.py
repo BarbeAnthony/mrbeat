@@ -24,6 +24,7 @@ class MainWidget(RelativeLayout):
     play_indicator_widget = ObjectProperty()
     bpm = NumericProperty(60)
     current_step_index = 0
+    all_track_widgets = []
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -40,7 +41,9 @@ class MainWidget(RelativeLayout):
         for i in range(0, self.sound_kit_service.get_nb_tracks()):
             sound_i = self.sound_kit_service.get_sound_at(i)
             audio_source_track_i = self.audio_source_mixer.audio_source_tracks[i]
-            self.tracks_layout.add_widget(TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i, SOUND_BUTTON_WIDTH))
+            track_widget_i = TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i, SOUND_BUTTON_WIDTH)
+            self.tracks_layout.add_widget(track_widget_i)
+            self.all_track_widgets.append(track_widget_i)
 
     def on_mixer_current_step_changed(self, current_step_index):
         self.current_step_index = current_step_index
@@ -55,6 +58,10 @@ class MainWidget(RelativeLayout):
 
     def on_stop_button_pressed(self):
         self.audio_source_mixer.audio_stop()
+
+    def on_clear_button_pressed(self):
+        for track_widget in self.all_track_widgets:
+            track_widget.set_step_buttons_normal()
 
     def on_bpm(self, widget, value):
         if value > MAX_BPM:

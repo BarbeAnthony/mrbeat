@@ -18,6 +18,9 @@ MainWidget:
                 text: "STOP"
                 on_press: root.on_stop_button_pressed()
             ControlButton:
+                text: "CLEAR"
+                on_press: root.on_clear_button_pressed()
+            ControlButton:
                 text: "-"
                 on_press: root.bpm -= 5
                 size_hint_x: None

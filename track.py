@@ -36,6 +36,9 @@ class TrackWidget(BoxLayout):
         # self.track_audio_source.set_steps(steps)
         self.track_source.set_steps(steps)
 
+    def set_step_buttons_normal(self):
+        for button in self.step_buttons:
+            button.state = "normal"
 
 
 class TrackSoundButton(Button):
