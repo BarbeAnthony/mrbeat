@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.metrics import dp
-from kivy.properties import ObjectProperty, Clock
+from kivy.properties import ObjectProperty, Clock, NumericProperty
 from kivy.uix.relativelayout import RelativeLayout
 from audio_engine import AudioEngine
 from sound_kit_service import SoundKitService
@@ -13,10 +13,14 @@ Builder.load_file("play_indicator.kv")
 NB_STEP_BUTTON = 16
 SOUND_BUTTON_WIDTH = dp(100)
 
+# /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+# /!\   TO DO ctrl+F "compensation de bug" à régler avant déploiement  /!\
+# /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 
 class MainWidget(RelativeLayout):
     tracks_layout = ObjectProperty()
     play_indicator_widget = ObjectProperty()
+    bpm = NumericProperty(60)
     current_step_index = 0
 
     def __init__(self, **kwargs):
@@ -49,6 +53,16 @@ class MainWidget(RelativeLayout):
 
     def on_stop_button_pressed(self):
         self.audio_source_mixer.audio_stop()
+
+    def on_bpm(self, widget, value):
+        if value > 160:
+            self.bpm = 160
+            # return pour éviter un double appel de la fin de on_bpm, car la fonction boucle sur elle même
+            return
+        elif value < 60:
+            self.bpm = 60
+            return
+
 
 
 class MrBeatApp(App):
