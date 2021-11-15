@@ -12,6 +12,8 @@ Builder.load_file("play_indicator.kv")
 
 NB_STEP_BUTTON = 16
 SOUND_BUTTON_WIDTH = dp(100)
+MIN_BPM = 60
+MAX_BPM = 160
 
 # /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 # /!\   TO DO ctrl+F "compensation de bug" à régler avant déploiement  /!\
@@ -31,7 +33,7 @@ class MainWidget(RelativeLayout):
         # self.audioengine.play_sound(kick_sound.samples)
         # self.audio_engine.create_track(kick_sound.samples, 60)
         all_wave_samples = self.sound_kit_service.get_all_samples()
-        self.audio_source_mixer = self.audio_engine.create_mixer(all_wave_samples, 60, NB_STEP_BUTTON, self.on_mixer_current_step_changed)   # compensation de bug, valeur souhaitée 120bpm
+        self.audio_source_mixer = self.audio_engine.create_mixer(all_wave_samples, 60, NB_STEP_BUTTON, self.on_mixer_current_step_changed, MIN_BPM)   # compensation de bug, valeur souhaitée 120bpm
 
     def on_parent(self, widget, parent):
         self.play_indicator_widget.set_nb_steps_and_position(NB_STEP_BUTTON, SOUND_BUTTON_WIDTH)
@@ -55,14 +57,14 @@ class MainWidget(RelativeLayout):
         self.audio_source_mixer.audio_stop()
 
     def on_bpm(self, widget, value):
-        if value > 160:
-            self.bpm = 160
+        if value > MAX_BPM:
+            self.bpm = MAX_BPM
             # return pour éviter un double appel de la fin de on_bpm, car la fonction boucle sur elle même
             return
-        elif value < 60:
-            self.bpm = 60
+        elif value < MIN_BPM:
+            self.bpm = MIN_BPM
             return
-
+        self.audio_source_mixer.set_bpm(self.bpm)
 
 
 class MrBeatApp(App):

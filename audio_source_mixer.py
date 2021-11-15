@@ -8,16 +8,20 @@ class AudioSourceMixer(ThreadSource):
     buffer = None
     is_playing = False
 
-    def __init__(self, output_stream, all_wave_samples, bpm, sample_rate, nb_steps, on_current_step_changed, *args, **kwargs):
+    def __init__(self, output_stream, all_wave_samples, bpm, sample_rate, nb_steps, on_current_step_changed, min_bpm, *args, **kwargs):
         ThreadSource.__init__(self, output_stream, *args, **kwargs)
         self.audio_source_tracks = []
         for i in range(0, len(all_wave_samples)):
-            a_s_track = AudioSourceTrack(output_stream, all_wave_samples[i], bpm, sample_rate)
+            a_s_track = AudioSourceTrack(output_stream, all_wave_samples[i], bpm, sample_rate, min_bpm)
             a_s_track.set_steps((0,) * nb_steps)
             self.audio_source_tracks.append(a_s_track)
+        self.buffer = array("h", b"\x00\x00" * self.audio_source_tracks[0].nb_samples_in_buffer)
+
+        self.bpm = bpm
         self.sample_rate = sample_rate
         self.nb_steps = nb_steps
         self.on_current_step_changed = on_current_step_changed
+        self.min_bpm = min_bpm
         # self.current_sample_index = 0
         self.current_step_index = 0
 
@@ -28,8 +32,9 @@ class AudioSourceMixer(ThreadSource):
             self.audio_source_tracks[index].set_steps(steps)
 
     def set_bpm(self, bpm):
-        for i in range(0, len(self.audio_source_tracks)):
-            self.audio_source_tracks[i].set_bpm(bpm)
+        if bpm < self.min_bpm:
+            return
+        self.bpm = bpm
 
     def audio_play(self):
         self.is_playing = True
@@ -38,14 +43,15 @@ class AudioSourceMixer(ThreadSource):
         self.is_playing = False
 
     def get_bytes(self, *args, **kwargs):
-        # initialiser le buffer
+        # Reréglage du bpm pour chaque track avant get_bytes
+        for i in range(0, len(self.audio_source_tracks)):
+            self.audio_source_tracks[i].set_bpm(self.bpm)
+
         nb_samples_per_step = self.audio_source_tracks[0].nb_samples_per_step
-        if self.buffer is None or not len(self.buffer) == nb_samples_per_step:
-            self.buffer = array("h", b"\x00\x00" * nb_samples_per_step)
 
         # Silence au démarage et si stop enclanché
         if not self.is_playing:
-            for i in range(0, nb_samples_per_step):
+            for i in range(0, len(self.buffer)-1):
                 self.buffer[i] = 0
             return self.buffer.tobytes()
 
@@ -67,4 +73,4 @@ class AudioSourceMixer(ThreadSource):
         self.current_step_index += 1
         if self.current_step_index >= self.nb_steps:
             self.current_step_index = 0
-        return self.buffer.tobytes()
+        return self.buffer[0:nb_samples_per_step].tobytes()
