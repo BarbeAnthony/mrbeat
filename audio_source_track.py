@@ -5,7 +5,6 @@ from audiostream.sources.thread import ThreadSource
 class AudioSourceTrack(ThreadSource):
     steps = ()
     nb_samples_per_step = 0
-    buffer = None
 
     def __init__(self, output_stream, wave_samples, bpm, sample_rate, min_bpm,  *args, **kwargs):
         ThreadSource.__init__(self, output_stream, *args, **kwargs)
@@ -14,13 +13,11 @@ class AudioSourceTrack(ThreadSource):
         self.bpm = bpm
         self.sample_rate = sample_rate
         self.min_bpm = min_bpm
-        # FIX : valeur initiale pour éviter son joué au démarage
-        self.current_sample_index = self.nb_wave_samples
+        self.current_sample_index = 0
         self.current_step_index = 0
         self.nb_samples_per_step = self.compute_nb_samples_per_step(bpm)
         # allocation du buffer à sa taille max, pour qu'il puisse gérer tous les cas
         self.nb_samples_in_buffer = self.compute_nb_samples_per_step(min_bpm)
-        self.buffer = array("h", b"\x00\x00" * self.nb_samples_in_buffer)
         self.silence = array("h", b"\x00\x00" * self.nb_samples_in_buffer)
 
     def set_steps(self, steps):
