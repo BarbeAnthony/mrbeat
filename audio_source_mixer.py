@@ -1,7 +1,19 @@
 from array import array
 from audiostream.sources.thread import ThreadSource
-
 from audio_source_track import AudioSourceTrack
+
+
+MAX_16BITS = 32767
+MIN_16BITS = -32768
+
+
+def sum_16bits(iterable):
+    result = sum(iterable)
+    if result > MAX_16BITS:
+        result = MAX_16BITS
+    elif result < MIN_16BITS:
+        result = MIN_16BITS
+    return result
 
 
 class AudioSourceMixer(ThreadSource):
@@ -55,7 +67,7 @@ class AudioSourceMixer(ThreadSource):
         for j in range(0, len(self.audio_source_tracks)):
             track_buffer = self.audio_source_tracks[j].get_bytes_array()
             all_buffers.append(track_buffer)
-        result_buffer = array("h", list(map(sum, zip(*all_buffers))))
+        result_buffer = array("h", list(map(sum_16bits, zip(*all_buffers))))
 
         # Mise à jour du play indicator widget
         if self.on_current_step_changed is not None:
