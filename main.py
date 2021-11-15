@@ -22,7 +22,7 @@ MAX_BPM = 160
 class MainWidget(RelativeLayout):
     tracks_layout = ObjectProperty()
     play_indicator_widget = ObjectProperty()
-    bpm = NumericProperty(115)   # compensation de bug, valeur souhaitée 115bpm
+    bpm = NumericProperty(60)   # compensation de bug, valeur souhaitée 115bpm
     current_step_index = 0
     all_track_widgets = []
 
