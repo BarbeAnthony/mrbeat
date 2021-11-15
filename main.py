@@ -22,7 +22,7 @@ MAX_BPM = 160
 class MainWidget(RelativeLayout):
     tracks_layout = ObjectProperty()
     play_indicator_widget = ObjectProperty()
-    bpm = NumericProperty(60)
+    bpm = NumericProperty(115)   # compensation de bug, valeur souhaitée 115bpm
     current_step_index = 0
     all_track_widgets = []
 
@@ -34,7 +34,7 @@ class MainWidget(RelativeLayout):
         # self.audioengine.play_sound(kick_sound.samples)
         # self.audio_engine.create_track(kick_sound.samples, 60)
         all_wave_samples = self.sound_kit_service.get_all_samples()
-        self.audio_source_mixer = self.audio_engine.create_mixer(all_wave_samples, 60, NB_STEP_BUTTON, self.on_mixer_current_step_changed, MIN_BPM)   # compensation de bug, valeur souhaitée 120bpm
+        self.audio_source_mixer = self.audio_engine.create_mixer(all_wave_samples, self.bpm, NB_STEP_BUTTON, self.on_mixer_current_step_changed, MIN_BPM)
 
     def on_parent(self, widget, parent):
         self.play_indicator_widget.set_nb_steps_and_position(NB_STEP_BUTTON, SOUND_BUTTON_WIDTH)
