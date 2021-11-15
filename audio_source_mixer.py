@@ -23,7 +23,7 @@ class AudioSourceMixer(ThreadSource):
         self.on_current_step_changed = on_current_step_changed
         self.min_bpm = min_bpm
         # self.current_sample_index = 0
-        self.current_step_index = 0
+        self.current_step_index = 0   # TO DO à fixer à 2 pour que le play indicator commence au step 0 au premier play
 
     def set_steps(self, index, steps):
         if index >= len(self.audio_source_tracks):
@@ -51,7 +51,7 @@ class AudioSourceMixer(ThreadSource):
 
         # Silence au démarage et si stop enclanché
         if not self.is_playing:
-            for i in range(0, len(self.buffer)-1):
+            for i in range(0, len(self.buffer)):
                 self.buffer[i] = 0
             return self.buffer.tobytes()
 
