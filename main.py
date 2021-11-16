@@ -1,3 +1,11 @@
+from kivy import Config
+from kivy.uix.widget import Widget
+
+Config.set('graphics', 'width', '780')
+Config.set('graphics', 'height', '360')
+Config.set('graphics', 'minimum_width', '650')
+Config.set('graphics', 'minimum_height', '300')
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.metrics import dp
@@ -17,6 +25,7 @@ MAX_BPM = 160
 # /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 # /!\   TO DO ctrl+F "compensation de bug" à régler avant déploiement  /!\
 # /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+
 
 class MainWidget(RelativeLayout):
     tracks_layout = ObjectProperty()
@@ -41,8 +50,9 @@ class MainWidget(RelativeLayout):
             sound_i = self.sound_kit_service.get_sound_at(i)
             audio_source_track_i = self.audio_source_mixer.audio_source_tracks[i]
             track_widget_i = TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i, LEFT_PART_OF_TRACK_WIDTH)
-            self.tracks_layout.add_widget(track_widget_i)
             self.all_track_widgets.append(track_widget_i)
+            self.tracks_layout.add_widget(track_widget_i)
+        self.tracks_layout.add_widget(VerticalSpacingWidget())   # TO DO vérifier à la fin que ça marche bien, sinon enlever
 
     def on_mixer_current_step_changed(self, current_step_index):
         self.current_step_index = current_step_index
@@ -71,6 +81,10 @@ class MainWidget(RelativeLayout):
             self.bpm = MIN_BPM
             return
         self.audio_source_mixer.set_bpm(self.bpm)
+
+
+class VerticalSpacingWidget(Widget):
+    pass
 
 
 class MrBeatApp(App):

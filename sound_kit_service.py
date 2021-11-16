@@ -49,6 +49,11 @@ class SoundKit2(SoundKit):
               Sound("sounds/kit1/vocal_chop.wav", "VOCAL"))
 
 
+class SoundKit3(SoundKit):
+    sounds = (Sound("sounds/kit1/kick.wav", "KICK"),
+              Sound("sounds/kit1/clap.wav", "CLAP"))
+
+
 class SoundKitTest(SoundKit):
     sounds = (Sound("sounds/kit1/kick.wav", "KICK"),
               Sound("sounds/kit1/clap.wav", "CLAP"),
