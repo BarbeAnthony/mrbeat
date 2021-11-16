@@ -11,7 +11,7 @@ Builder.load_file("track.kv")
 Builder.load_file("play_indicator.kv")
 
 NB_STEP_BUTTON = 16
-SOUND_BUTTON_WIDTH = dp(100)
+LEFT_PART_OF_TRACK_WIDTH = dp(120)
 MIN_BPM = 60
 MAX_BPM = 160
 
@@ -37,11 +37,11 @@ class MainWidget(RelativeLayout):
         self.audio_source_mixer = self.audio_engine.create_mixer(all_wave_samples, self.bpm, NB_STEP_BUTTON, self.on_mixer_current_step_changed, MIN_BPM)
 
     def on_parent(self, widget, parent):
-        self.play_indicator_widget.set_nb_steps_and_position(NB_STEP_BUTTON, SOUND_BUTTON_WIDTH)
+        self.play_indicator_widget.set_nb_steps_and_position(NB_STEP_BUTTON, LEFT_PART_OF_TRACK_WIDTH)
         for i in range(0, self.sound_kit_service.get_nb_tracks()):
             sound_i = self.sound_kit_service.get_sound_at(i)
             audio_source_track_i = self.audio_source_mixer.audio_source_tracks[i]
-            track_widget_i = TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i, SOUND_BUTTON_WIDTH)
+            track_widget_i = TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i, LEFT_PART_OF_TRACK_WIDTH)
             self.tracks_layout.add_widget(track_widget_i)
             self.all_track_widgets.append(track_widget_i)
 
