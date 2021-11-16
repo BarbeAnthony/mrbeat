@@ -8,6 +8,7 @@ MainWidget:
     play_indicator_widget: play_indicator_widget_id
     BoxLayout:
         orientation: "vertical"
+        # Top Layout
         BoxLayout:
             size_hint_y: None
             height: dp(50)
@@ -34,12 +35,22 @@ MainWidget:
                 on_press: root.bpm += 5
                 size_hint_x: None
                 width: dp(50)
-        PlayIndicatorWidget:
-            id: play_indicator_widget_id
-            size_hint_y: None
-            height: dp(17) # compensation de bug, valeur souhaitée dp(8)
-        BoxLayout:
-            id: tracks_layout_id
-            orientation: "vertical"
+
+        # Bottom Layout
+        RelativeLayout:
+            Image:
+                source: "images/background.jpg"
+                allow_stretch: True
+                keep_ratio: False
+            BoxLayout:
+                orientation: "vertical"
+                padding: dp(16)
+                PlayIndicatorWidget:
+                    id: play_indicator_widget_id
+                    size_hint_y: None
+                    height: dp(8)
+                BoxLayout:
+                    id: tracks_layout_id
+                    orientation: "vertical"
 
 <ControlButton@Button>:
