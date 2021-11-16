@@ -9,56 +9,50 @@ MainWidget:
 
     BoxLayout:
         orientation: "vertical"
+
         # Top Layout
         RelativeLayout:
             size_hint_y: None
             height: dp(60)
-            Button:
+            Image:
+                source: "images/top_background.png"
+                allow_stretch : True
+                keep_ratio : False
+            Image:
+                source: "images/logo.png"
+                allow_stretch: True
                 size_hint_x: None
-                width: dp(100)
-                text: "A"
+                width: dp(230)
             BoxLayout
                 size_hint_x: None
                 width: dp(180)
                 pos_hint: {"center_x": 0.5}
-                Button:
-                    text: "B1"
-                Button:
-                    text: "B2"
-                Button:
-                    text: "B3"
-            Button:
+                ControlButton:
+                    text: "PLAY"
+                    on_press: root.on_play_button_pressed()
+                ControlButton:
+                    text: "STOP"
+                    on_press: root.on_stop_button_pressed()
+                ControlButton:
+                    text: "CLEAR"
+                    on_press: root.on_clear_button_pressed()
+            BoxLayout:
                 size_hint_x: None
-                width: dp(100)
+                width: dp(180)
                 pos_hint: {"right": 1}
-                text: "C"
-        BoxLayout:
-            size_hint_y: None
-            height: dp(50)
-            ControlButton:
-                text: "PLAY"
-                on_press: root.on_play_button_pressed()
-            ControlButton:
-                text: "STOP"
-                on_press: root.on_stop_button_pressed()
-            ControlButton:
-                text: "CLEAR"
-                on_press: root.on_clear_button_pressed()
-            ControlButton:
-                text: "-"
-                on_press: root.bpm -= 5
-                size_hint_x: None
-                width: dp(50)
-            Label:
-                text: str(root.bpm)
-                size_hint_x: None
-                width: dp(80)
-            ControlButton:
-                text: "+"
-                on_press: root.bpm += 5
-                size_hint_x: None
-                width: dp(50)
-
+                ControlButton:
+                    text: "-"
+                    on_press: root.bpm -= 5
+                    size_hint_x: None
+                    width: dp(50)
+                Label:
+                    text: str(root.bpm)
+                ControlButton:
+                    text: "+"
+                    on_press: root.bpm += 5
+                    size_hint_x: None
+                    width: dp(50)
+                    
         # Bottom Layout
         RelativeLayout:
             Image:
