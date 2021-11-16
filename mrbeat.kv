@@ -6,9 +6,32 @@ MainWidget:
 <MainWidget>:
     tracks_layout : tracks_layout_id
     play_indicator_widget: play_indicator_widget_id
+
     BoxLayout:
         orientation: "vertical"
         # Top Layout
+        RelativeLayout:
+            size_hint_y: None
+            height: dp(60)
+            Button:
+                size_hint_x: None
+                width: dp(100)
+                text: "A"
+            BoxLayout
+                size_hint_x: None
+                width: dp(180)
+                pos_hint: {"center_x": 0.5}
+                Button:
+                    text: "B1"
+                Button:
+                    text: "B2"
+                Button:
+                    text: "B3"
+            Button:
+                size_hint_x: None
+                width: dp(100)
+                pos_hint: {"right": 1}
+                text: "C"
         BoxLayout:
             size_hint_y: None
             height: dp(50)
