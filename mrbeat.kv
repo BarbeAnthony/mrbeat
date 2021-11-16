@@ -55,7 +55,17 @@ MainWidget:
                         allow_stretch: True
                         keep_ratio: False
                     Label:
-                        text: str(root.bpm)
+                        text: "888"
+                        font_name: "fonts/Lcd.ttf"
+                        font_size: dp(36)
+                        color: (0, 1, 1, 0.1)
+                        pos: dp(-4), dp(3)
+                    Label:
+                        text: '{:0>3}'.format(str(root.bpm))
+                        font_name: "fonts/Lcd.ttf"
+                        font_size: dp(36)
+                        color: (0, 1, 1, 1)
+                        pos: dp(-4), dp(3)
                 ControlButton:
                     on_press: root.bpm += 5
                     size_hint_x: None
