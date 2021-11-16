@@ -8,7 +8,6 @@ from sound_kit_service import SoundKitService
 from track import TrackWidget
 
 Builder.load_file("track.kv")
-Builder.load_file("play_indicator.kv")
 
 NB_STEP_BUTTON = 16
 LEFT_PART_OF_TRACK_WIDTH = dp(120)
