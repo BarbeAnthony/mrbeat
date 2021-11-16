@@ -47,8 +47,9 @@ class AudioSourceTrack(ThreadSource):
         result_buffer = None
 
         # 1 : aucun step activé et pas de son commencé-> silence
-        if self.no_step_activated() and self.current_sample_index == 0:
+        if self.no_step_activated():
             result_buffer = self.silence[0:self.nb_samples_per_step]
+            self.current_sample_index = 0
         # 2 : step activé -> jouer du son
         elif self.steps[self.current_step_index] == 1:
             # 2.1 : le son a plus ou autant de samples qu'un step -> remplir le buffer avec les samples du son son

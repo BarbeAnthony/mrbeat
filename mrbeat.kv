@@ -89,11 +89,14 @@ MainWidget:
                     id: play_indicator_widget_id
                     size_hint_y: None
                     height: dp(8)
-                BoxLayout:
-                    id: tracks_layout_id
-                    orientation: "vertical"
+                RelativeLayout:
+                    ScrollView:
+                        pos_hint: {"top": 1}
+                        do_scoll_x: False
+                        BoxLayout:
+                            id: tracks_layout_id
+                            size_hint_min_y: dp(45) * root.nb_tracks
+                            size_hint_max_y: dp(75) * root.nb_tracks
+                            orientation: "vertical"
 
 <ControlButton@Button>:
-
-<VerticalSpacingWidget>:
-    size_hint_y: 0.01

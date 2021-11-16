@@ -33,6 +33,7 @@ class MainWidget(RelativeLayout):
     bpm = NumericProperty(60)   # compensation de bug, valeur souhaitée 115bpm
     current_step_index = 0
     all_track_widgets = []
+    nb_tracks = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -46,13 +47,13 @@ class MainWidget(RelativeLayout):
 
     def on_parent(self, widget, parent):
         self.play_indicator_widget.set_nb_steps_and_position(NB_STEP_BUTTON, LEFT_PART_OF_TRACK_WIDTH)
-        for i in range(0, self.sound_kit_service.get_nb_tracks()):
+        self.nb_tracks = self.sound_kit_service.get_nb_tracks()
+        for i in range(0, self.nb_tracks):
             sound_i = self.sound_kit_service.get_sound_at(i)
             audio_source_track_i = self.audio_source_mixer.audio_source_tracks[i]
             track_widget_i = TrackWidget(self.audio_engine, sound_i, NB_STEP_BUTTON, audio_source_track_i, LEFT_PART_OF_TRACK_WIDTH)
             self.all_track_widgets.append(track_widget_i)
             self.tracks_layout.add_widget(track_widget_i)
-        self.tracks_layout.add_widget(VerticalSpacingWidget())   # TO DO vérifier à la fin que ça marche bien, sinon enlever
 
     def on_mixer_current_step_changed(self, current_step_index):
         self.current_step_index = current_step_index
@@ -81,10 +82,6 @@ class MainWidget(RelativeLayout):
             self.bpm = MIN_BPM
             return
         self.audio_source_mixer.set_bpm(self.bpm)
-
-
-class VerticalSpacingWidget(Widget):
-    pass
 
 
 class MrBeatApp(App):
